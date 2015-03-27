@@ -340,7 +340,7 @@ def direct_to_user_template(request, username, template_name,
         The currently :class:`User` that is viewed.
 
     """
-    user = get_object_or_404(get_user_model(), username__iexact=username)
+    user = get_object_or_404(get_user_model(), username=username)
 
     if not extra_context: extra_context = dict()
     extra_context['viewed_user'] = user
@@ -375,7 +375,7 @@ def disabled_account(request, username, template_name, extra_context=None):
         Profile of the viewed user.
 
     """
-    user = get_object_or_404(get_user_model(), username__iexact=username)
+    user = get_object_or_404(get_user_model(), username=username)
 
     if user.is_active:
         raise Http404
@@ -534,7 +534,7 @@ def email_change(request, username, email_form=ChangeEmailForm,
     permissions to alter the email address of others.
 
     """
-    user = get_object_or_404(get_user_model(), username__iexact=username)
+    user = get_object_or_404(get_user_model(), username=username)
     prev_email = user.email
     form = email_form(user)
 
@@ -602,7 +602,7 @@ def password_change(request, username, template_name='userena/password_form.html
 
     """
     user = get_object_or_404(get_user_model(),
-                             username__iexact=username)
+                             username=username)
 
     form = pass_form(user=user)
 
@@ -671,7 +671,7 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
         Instance of the ``Profile`` that is edited.
 
     """
-    user = get_object_or_404(get_user_model(), username__iexact=username)
+    user = get_object_or_404(get_user_model(), username=username)
 
     profile = get_user_profile(user=user)
 
@@ -727,7 +727,7 @@ def profile_detail(request, username,
         Instance of the currently viewed ``Profile``.
 
     """
-    user = get_object_or_404(get_user_model(), username__iexact=username)
+    user = get_object_or_404(get_user_model(), username=username)
     profile = get_user_profile(user=user)
     if not profile.can_view_profile(request.user):
         raise PermissionDenied

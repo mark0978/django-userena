@@ -53,7 +53,7 @@ class MessageDetailListView(MessageListView):
     def get_queryset(self):
         username = self.kwargs['username']
         self.recipient = get_object_or_404(get_user_model(),
-                                  username__iexact=username)
+                                  username=username)
         queryset = Message.objects.get_conversation_between(self.request.user,
                                                         self.recipient)
         self._update_unread_messages(queryset)

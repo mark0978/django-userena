@@ -35,7 +35,7 @@ class UserenaAuthenticationBackend(ModelBackend):
             try: user = User.objects.get(email__iexact=identification)
             except User.DoesNotExist: return None
         except django.core.validators.ValidationError:
-            try: user = User.objects.get(username__iexact=identification)
+            try: user = User.objects.get(username=identification)
             except User.DoesNotExist: return None
         if check_password:
             if user.check_password(password):

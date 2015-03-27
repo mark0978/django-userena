@@ -56,7 +56,7 @@ class SignupForm(forms.Form):
         except get_user_model().DoesNotExist:
             pass
         else:
-            if userena_settings.USERENA_ACTIVATION_REQUIRED and UserenaSignup.objects.filter(user__username__iexact=self.cleaned_data['username']).exclude(activation_key=userena_settings.USERENA_ACTIVATED):
+            if userena_settings.USERENA_ACTIVATION_REQUIRED and UserenaSignup.objects.filter(user__username=self.cleaned_data['username']).exclude(activation_key=userena_settings.USERENA_ACTIVATED):
                 raise forms.ValidationError(_('This username is already taken but not confirmed. Please check your email for verification steps.'))
             raise forms.ValidationError(_('This username is already taken.'))
         if self.cleaned_data['username'].lower() in userena_settings.USERENA_FORBIDDEN_USERNAMES:
@@ -115,7 +115,7 @@ class SignupFormOnlyEmail(SignupForm):
         while True:
             username = sha_constructor(str(random.random()).encode('utf-8')).hexdigest()[:5]
             try:
-                get_user_model().objects.get(username__iexact=username)
+                get_user_model().objects.get(username=username)
             except get_user_model().DoesNotExist: break
 
         self.cleaned_data['username'] = username
